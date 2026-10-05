@@ -8,7 +8,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'p
 
 from embedding_service import MultimodalEmbeddingModel
 from vector_store import VectorDatabase
-from clustering_engine import VisualClusteringEngine
 from query_analyzer import QueryAnalyzer
 from feedback_processor import FeedbackProcessor
 
@@ -27,7 +26,6 @@ class StatefulSearchOrchestrator:
         print("Initializing Stateful Search Orchestrator...")
         self.embedding_service = MultimodalEmbeddingModel()
         self.vector_db = VectorDatabase(persist_directory=db_path)
-        self.clustering_engine = VisualClusteringEngine(k_clusters=4)
         self.query_analyzer = QueryAnalyzer()
         self.feedback_processor = FeedbackProcessor(negative_weight_factor=0.3)
         
