@@ -36,17 +36,32 @@ class MultimodalEmbeddingModel:
             
         # Fallback Mechanism: If Hugging Face is down globally (DNS/Outage)
         print("WARNING: HuggingFace API is down! Engaging Offline Fallback Cache...")
-        
-        # We load a local embedding of an existing image to prevent a 500 server crash.
-        # This demonstrates graceful degradation in production.
+        # Fallback Mechanism: If Hugging Face is down globally (DNS/Outage)
+        print("WARNING: HuggingFace API is down! Engaging Offline Fallback Cache...")
         import json
         import os
-        try:
-            # Load from the phase1 folder where chroma_db lives
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-            with open(os.path.join(base_dir, "offline_vectors.json"), "r") as f:
-                offline_cache = json.load(f)
+        
+        # Search for offline_vectors.json in all possible uploaded locations
+        possible_paths = [
+            "offline_vectors.json",
+            "src/offline_vectors.json",
+            "src/phase1/offline_vectors.json",
+            "phase1/offline_vectors.json",
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "offline_vectors.json")
+        ]
+        
+        offline_cache = None
+        for p in possible_paths:
+            if os.path.exists(p):
+                with open(p, "r") as f:
+                    offline_cache = json.load(f)
+                break
                 
+        if offline_cache is None:
+            print("Fallback failed: offline_vectors.json not found anywhere!")
+            return []
+            
+        try:
             text_lower = text.lower()
             if "cafe" in text_lower or "coffee" in text_lower:
                 return offline_cache.get("memory_4.jpg", list(offline_cache.values())[0])
