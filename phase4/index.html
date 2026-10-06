@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Google Photos</title>
+    <link rel="stylesheet" href="/ui/style.css?v=2">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Product+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="mobile-container">
+            
+            <!-- Authentic Centered Header -->
+            <div class="top-header">
+                <div class="spacer"></div>
+                <div class="logo-container">
+                    <span style="font-weight:500;">Google</span>
+                    <span style="font-weight:400; margin-left:4px; color:#5f6368;">Photos</span>
+                </div>
+                <div class="header-icons">
+                    <img class="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=1a73e8&color=fff&rounded=true&size=32" alt="Profile">
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-section">
+                <div class="search-pill">
+                    <span class="material-icons search-icon">search</span>
+                    <input type="text" id="searchInput" placeholder="Search your photos">
+                </div>
+                <button id="searchBtn" style="display: none;">Search</button>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="content" id="contentArea">
+                
+                <!-- Authentic Mobile Initial State -->
+                <div id="initialState" class="dashboard-state">
+                    
+                    <h3 class="section-title" style="margin-top: 8px;">Albums</h3>
+                    
+                    <div class="albums-grid">
+                        <div class="album-card">
+                            <div class="album-img" style="background-image: url('/photos/memory_0.jpg');"></div>
+                            <div class="album-title">Favorites</div>
+                            <div class="album-subtitle">3 photos</div>
+                        </div>
+                        <div class="album-card">
+                            <div class="album-img" style="background-image: url('/photos/memory_1.jpg');"></div>
+                            <div class="album-title">People & pets</div>
+                            <div class="album-subtitle">18 photos</div>
+                        </div>
+                        <div class="album-card">
+                            <div class="album-img" style="background-image: url('/photos/memory_2.jpg');"></div>
+                            <div class="album-title">Places</div>
+                            <div class="album-subtitle">12 photos</div>
+                        </div>
+                        <div class="album-card">
+                            <div class="album-img" style="background-image: url('/photos/memory_3.jpg');"></div>
+                            <div class="album-title">Things</div>
+                            <div class="album-subtitle">14 photos</div>
+                        </div>
+                    </div>
+
+                    <div class="backup-banner">
+                        <span class="material-icons cloud-icon">cloud_queue</span>
+                        <span class="backup-text">Backing up to the cloud</span>
+                    </div>
+
+                    <h3 class="section-title">Photos</h3>
+                    
+                    <div class="bottom-photos-grid">
+                        <div class="bottom-photo" style="background-image: url('/photos/memory_4.jpg');"></div>
+                        <div class="bottom-photo" style="background-image: url('/photos/memory_5.jpg');"></div>
+                    </div>
+
+                </div>
+                
+                <!-- 2x2 AI Grid State -->
+                <div id="choiceGridContainer" class="hidden">
+                    <div class="disambiguation-header">
+                        <h2>Which fits your memory?</h2>
+                        <button id="pivotBtn" class="pivot-btn" onclick="triggerDynamicPivot()">
+                            <span class="material-icons">refresh</span> Pivot
+                        </button>
+                    </div>
+                    
+                    <div class="grid" id="grid">
+                        <div class="quadrant skeleton" id="quad1" onclick="selectQuadrant(1)"></div>
+                        <div class="quadrant skeleton" id="quad2" onclick="selectQuadrant(2)"></div>
+                        <div class="quadrant skeleton" id="quad3" onclick="selectQuadrant(3)"></div>
+                        <div class="quadrant skeleton" id="quad4" onclick="selectQuadrant(4)"></div>
+                    </div>
+                </div>
+
+                <!-- Success State -->
+                <div id="successState" class="hidden" style="text-align: center; margin-top: 100px;">
+                    <h2>Search Refined!</h2>
+                    <p style="color: #5f6368;">Loading full album...</p>
+                </div>
+            </div>
+
+            <!-- Official Light Mode Bottom Navigation Bar -->
+            <div class="bottom-nav">
+                <div class="nav-item">
+                    <span class="material-icons">photo</span>
+                    <span class="nav-label">Photos</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">auto_awesome_mosaic</span>
+                    <span class="nav-label">Memories</span>
+                </div>
+                <div class="nav-item active">
+                    <div class="nav-icon-container">
+                        <span class="material-icons">photo_library</span>
+                    </div>
+                    <span class="nav-label">Library</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">search</span>
+                    <span class="nav-label">Search</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Live AI Transparency Dashboard for Pitch -->
+        <div id="debugDashboard" class="debug-dashboard">
+            <h3 style="margin-top:0;">AI Debug Console</h3>
+            <p style="color:#888; font-size:14px;">Awaiting search query...</p>
+        </div>
+    </div>
+
+    <script src="/ui/app.js?v=2"></script>
+    <script>
+        document.getElementById("searchInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                document.getElementById("searchBtn").click();
+            }
+        });
+    </script>
+</body>
+</html>
