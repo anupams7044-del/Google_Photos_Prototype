@@ -89,7 +89,9 @@ class StatefulSearchOrchestrator:
 
     def _execute_visual_retrieval(self, user_id: str, session: SearchSession):
         """Core logic to fetch and cluster candidates using the session's current vector state."""
-        
+                # Prevent database crash if Hugging Face is down and fallback is empty
+        if not session.current_query_vector or len(session.current_query_vector) == 0:
+            return {"type": "error", "message": "No photos found."}
         # Retrieve candidates based on the mathematically adjusted vector.
         # Fetching exactly top_k=4 so that the 2x2 grid strictly displays the
         # absolute closest semantic matches, bypassing K-Means visual diversity logic
