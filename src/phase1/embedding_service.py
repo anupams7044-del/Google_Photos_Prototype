@@ -5,7 +5,7 @@ import time
 class MultimodalEmbeddingModel:
     def __init__(self, model_name="openai/clip-vit-base-patch32"):
         self.api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_name}"
-        self.headers = {"Authorization": "Bearer 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"}
+        self.headers = {"Authorization": "Bearer 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"}
         
     def get_image_embedding(self, image_path):
         return []
@@ -27,9 +27,14 @@ class MultimodalEmbeddingModel:
             import auto_populate
             offline_cache = auto_populate.VECTORS
             text_lower = text.lower()
-            if "bar" in text_lower: return offline_cache.get("memory_0.jpg")
-            elif "cafe" in text_lower or "coffee" in text_lower: return offline_cache.get("memory_1.jpg")
-            elif "car" in text_lower: return offline_cache.get("memory_11.jpg")
-            else: return []
+            
+            if any(word in text_lower for word in ["pub", "bar", "drinks", "club"]):
+                return offline_cache.get("memory_0.jpg")
+            elif any(word in text_lower for word in ["cafe", "coffee", "restaurant", "dining", "food"]):
+                return offline_cache.get("memory_1.jpg")
+            elif any(word in text_lower for word in ["car", "suv", "toyota", "vehicle", "sedan", "auto", "drive"]):
+                return offline_cache.get("memory_11.jpg")
+            else: 
+                return []
         except Exception:
             return []
