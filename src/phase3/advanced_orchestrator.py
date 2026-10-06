@@ -108,8 +108,11 @@ class StatefulSearchOrchestrator:
         # If an image's vector distance is absolute garbage, drop it.
         filtered_grid_data = []
         best_distance = distances[0]
-        # Relative 15% tolerance threshold
-        max_allowed_distance = best_distance * 1.15
+        # Relative 15% tolerance threshold, but prevent 0.0 multiplier in fallback mode
+        if best_distance < 1.0:
+            max_allowed_distance = best_distance + 100.0  # Allow variance for exact matches
+        else:
+            max_allowed_distance = best_distance * 1.15
         # Absolute garbage threshold: For CLIP L2, anything > 151 is usually totally unrelated.
         ABSOLUTE_CUTOFF = 151.0
         
