@@ -12,6 +12,11 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     const promoBanner = document.getElementById('promoBanner');
     if(promoBanner) promoBanner.classList.add('hidden');
     document.getElementById('successState').classList.add('hidden');
+    
+    // Hide any previous errors
+    const errorState = document.getElementById('errorState');
+    if(errorState) errorState.classList.add('hidden');
+
     const gridContainer = document.getElementById('choiceGridContainer');
     gridContainer.classList.remove('hidden');
     pivotCount = 0;
@@ -40,13 +45,28 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
             alert("Specific query detected. Routing to legacy search engine.");
             gridContainer.classList.add('hidden');
         } else {
-            alert(data.message || "No results found.");
-            gridContainer.classList.add('hidden');
+            throw new Error("No results"); // Force it into the catch block for clean UI
         }
     } catch (error) {
         console.error("Search failed:", error);
-        alert("Search failed. Is the server running?");
         gridContainer.classList.add('hidden');
+        
+        // Inject a beautiful native mobile empty state
+        const contentArea = document.getElementById('contentArea');
+        let errorDiv = document.getElementById('errorState');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.id = 'errorState';
+            errorDiv.style.textAlign = "center";
+            errorDiv.style.marginTop = "100px";
+            errorDiv.innerHTML = `
+                <span class="material-icons" style="font-size:48px; color:#5f6368;">image_not_supported</span>
+                <h3 style="color:#202124; margin-top:16px;">No photos found</h3>
+                <p style="color:#5f6368;">Try a different search term.</p>
+            `;
+            contentArea.appendChild(errorDiv);
+        }
+        errorDiv.classList.remove('hidden');
     }
 });
 
@@ -83,6 +103,9 @@ async function triggerDynamicPivot() {
         if (data.type === '2x2_grid') {
             currentGridData = data.grid_data;
             populateGrid(currentGridData);
+            if (data.debug_log) {
+                renderDebugDashboard(data.debug_log);
+            }
         } else {
             alert(data.message || "Pivot limit reached or no results.");
             document.getElementById('choiceGridContainer').classList.add('hidden');
