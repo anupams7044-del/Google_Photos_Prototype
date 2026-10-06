@@ -5,7 +5,7 @@ import time
 class MultimodalEmbeddingModel:
     def __init__(self, model_name="openai/clip-vit-base-patch32"):
         self.api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_name}"
-        self.headers = {"Authorization": "Bearer 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"}
+        self.headers = {"Authorization": "Bearer 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"}
         
     def get_image_embedding(self, image_path):
         """Offline MVP: We do not process new images dynamically on the server."""
