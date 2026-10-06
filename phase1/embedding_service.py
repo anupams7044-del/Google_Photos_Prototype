@@ -40,12 +40,9 @@ class MultimodalEmbeddingModel:
             import auto_populate
             offline_cache = auto_populate.VECTORS
             text_lower = text.lower()
-            if "bar" in text_lower:
-                return offline_cache.get("memory_0.jpg")
-            elif "cafe" in text_lower or "coffee" in text_lower:
-                return offline_cache.get("memory_1.jpg")
-            elif "car" in text_lower:
-                return offline_cache.get("memory_11.jpg")
+            if "bar" in text_lower: return offline_cache.get("memory_0.jpg")
+            elif "cafe" in text_lower or "coffee" in text_lower: return offline_cache.get("memory_1.jpg")
+            elif "car" in text_lower: return offline_cache.get("memory_11.jpg")
             else:
                 # If they search for something we don't have a fallback vector for,
                 # we just return empty, which shows "No results found" instead of hallucinating!
